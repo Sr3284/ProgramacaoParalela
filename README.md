@@ -1,2 +1,5 @@
-# ProgPar
-Contém os três trabalhos usados como avaliação na disciplina de Programação Paralela, ofertada em 2022.2
+# Programação Paralela
+
+Trabalhos desenvolvidos em conjunto com Rodrigo Seiti Kouta
+
+## Trabalho 1: Problema de roteamento usando o algoritmo de Lee
