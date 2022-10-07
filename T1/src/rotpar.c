@@ -246,7 +246,7 @@ bool expand() {
 		{
 			#pragma omp master 
 			{
-				atual = remove_fila();
+				atual = remove_fila(0);
 			}
 
 			if (atual.i == destino.i && atual.j == destino.j)
@@ -303,7 +303,7 @@ bool expand() {
 			}
 		}
 
-		insere_fila(remove_fila(), 1);
+		insere_fila(remove_fila(1), 1);
 	}
 
 }
