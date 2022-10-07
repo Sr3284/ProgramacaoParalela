@@ -222,13 +222,49 @@ bool expand() {
 				#pragma omp sections 
 				{
 					#pragma omp section
-						//norte
+						if (((atual.i - 1) >= 0) && (dist[atual.i - 1][atual.j] == INT_MAX)) {
+							#pragma omp critical 
+							{
+								vizinho.i = atual.i - 1;
+								vizinho.j = atual.j;
+
+								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
+								insere_fila(vizinho);
+							}
+						}
 					#pragma omp section
-						//sul
+						if (((atual.i + 1) < nLinhas) && (dist[atual.i + 1][atual.j] == INT_MAX)) {
+							#pragma omp critical 
+							{
+								vizinho.i = atual.i + 1;
+								vizinho.j = atual.j;
+
+								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
+								insere_fila(vizinho);
+							}
+						}
 					#pragma omp section
-						//leste
+						if (((atual.j - 1) >= 0) && (dist[atual.i][atual.j - 1] == INT_MAX)) {
+							#pragma omp critical 
+							{
+								vizinho.i = atual.i;
+								vizinho.j = atual.j - 1;
+
+								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
+								insere_fila(vizinho);
+							}
+						}
 					#pragma omp section
-						//oeste
+						if (((atual.j + 1) < nColunas) && (dist[atual.i][atual.j + 1] == INT_MAX)) {
+							#pragma omp critical 
+							{
+								vizinho.i = atual.i;
+								vizinho.j = atual.j + 1;
+
+								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
+								insere_fila(vizinho);
+							}
+						}
 				}
 			}
 		}
