@@ -199,7 +199,31 @@ void insere_caminho(t_celula celula)
 
 // ----------------------------------------------------------------------------
 
-bool expand() {}
+bool expand() {
+
+	bool achou = false;
+	t_celula atual, vizinho;
+
+	insere_fila(origem);
+
+	while (ini_fila != NULL && !achou) {
+
+		#pragma omp parallel sections firstprivate(atual) num_threads(4)
+		{
+			#pragma omp section
+				//norte
+			#pragma omp section
+				//sul
+			#pragma omp section
+				//leste
+			#pragma omp section
+				//oeste
+		}
+
+		//insere_fila(fim_fila, remove_fila(aux))
+	}
+
+}
 
 // ----------------------------------------------------------------------------
 
