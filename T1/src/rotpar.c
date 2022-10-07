@@ -45,8 +45,6 @@ t_no *ini_fila,		// Ponteiros para início e fim da fila de células a serem tra
 	 *fim_aux,
 	 *ini_caminho;	// Ponteiro para início do caminho encontrado
 
-int currLevel;
-
 // ----------------------------------------------------------------------------
 // Funções
 
@@ -251,7 +249,7 @@ bool expand() {
 								vizinho.j = atual.j;
 
 								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
-								insere_fila(vizinho);
+								insere_fila(vizinho, 1);
 							}
 						}
 					#pragma omp section
@@ -262,7 +260,7 @@ bool expand() {
 								vizinho.j = atual.j;
 
 								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
-								insere_fila(vizinho);
+								insere_fila(vizinho, 1);
 							}
 						}
 					#pragma omp section
@@ -273,7 +271,7 @@ bool expand() {
 								vizinho.j = atual.j - 1;
 
 								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
-								insere_fila(vizinho);
+								insere_fila(vizinho, 1);
 							}
 						}
 					#pragma omp section
@@ -284,14 +282,14 @@ bool expand() {
 								vizinho.j = atual.j + 1;
 
 								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
-								insere_fila(vizinho);
+								insere_fila(vizinho, 1);
 							}
 						}
 				}
 			}
 		}
 
-		insere_fila(remove_aux(), 1);
+		insere_fila(remove_fila(), 1);
 	}
 
 }
@@ -370,11 +368,15 @@ int main(int argc, char** argv)
 	strcpy(nome_arq_entrada, argv[1]);
 	strcpy(nome_arq_saida, argv[2]);
 
+	printf("1");
 	// Lê arquivo de entrada e inicializa estruturas de dados
 	inicializacao (nome_arq_entrada);
+	printf("2");
 
+	printf("3");
 	// Fase de expansão: calcula distância da origem até demais células do grid
 	achou = expand();
+	printf("4");
 
 	// Se não encontrou caminho de origem até destino
 	if (! achou)
