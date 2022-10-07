@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------------
 	Roteamento usando algoritmo de Lee
 
-Autores: Davi Queiroz Rodrigues e Rodrigo Seiti Koga
+Autores: Davi Queiroz Rodrigues e Rodrigo Seiti Koga Kikuta
 
 Para compilar: gcc rotseq.c -o rotSequencial -Wall -pedantic
 			   make rotSequencial
