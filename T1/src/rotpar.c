@@ -208,16 +208,29 @@ bool expand() {
 
 	while (ini_fila != NULL && !achou) {
 
-		#pragma omp parallel sections firstprivate(atual) num_threads(4)
+		#pragma omp parallel num_threads(4) 
 		{
-			#pragma omp section
-				//norte
-			#pragma omp section
-				//sul
-			#pragma omp section
-				//leste
-			#pragma omp section
-				//oeste
+			#pragma omp master 
+			{
+				atual = remove_fila();
+			}
+
+			if (atual.i == destino.i && atual.j == destino.j)
+				achou = true;
+			else {
+
+				#pragma omp sections 
+				{
+					#pragma omp section
+						//norte
+					#pragma omp section
+						//sul
+					#pragma omp section
+						//leste
+					#pragma omp section
+						//oeste
+				}
+			}
 		}
 
 		//insere_fila(fim_fila, remove_fila(aux))
