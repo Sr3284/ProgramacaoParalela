@@ -170,21 +170,35 @@ void insere_fila(t_celula celula, int num)
 // ----------------------------------------------------------------------------
 // Remove célula do início da fila de células a serem tratadas (fila FIFO)
 
-t_celula remove_fila()
+t_celula remove_fila(int num)
 {
 	t_celula celula;
 	t_no *no;
 
-	no = ini_fila;
+	if (num == 0) {
+		no = ini_fila;
 
-	celula.i = no->i;
-	celula.j = no->j;
+		celula.i = no->i;
+		celula.j = no->j;
 
-	ini_fila = no->prox;
+		ini_fila = no->prox;
 
-	if (ini_fila == NULL)
-		fim_fila = NULL;
+		if (ini_fila == NULL)
+			fim_fila = NULL;
 	
+	} else if (num == 1){
+		no = ini_aux;
+
+		celula.i = no->i;
+		celula.j = no->j;
+
+		ini_aux = no->prox;
+
+		if (ini_aux == NULL)
+			fim_aux = NULL;
+	
+	}
+
 	free(no);
 
 	return celula;
