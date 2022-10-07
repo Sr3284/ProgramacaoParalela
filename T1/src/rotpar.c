@@ -191,6 +191,7 @@ t_celula remove_fila()
 
 	return celula;
 }
+
 void remove_aux()
 {
 	t_no *no;
@@ -290,7 +291,7 @@ bool expand() {
 			}
 		}
 
-		//insere_fila(fim_fila, remove_fila(aux))
+		insere_fila(remove_aux(), 1);
 	}
 
 }
@@ -299,15 +300,15 @@ bool expand() {
 
 void traceback() {
 
-	t_celula celula, vizinho ;
+	t_celula celula, vizinho;
 
 	// Constrói caminho mínimo, com células do destino até a origem
 	
 	// Inicia caminho com célula destino
-	insere_caminho(destino) ;
+	insere_caminho(destino);
 
-	celula.i = destino.i ;
-	celula.j = destino.j ;
+	celula.i = destino.i;
+	celula.j = destino.j;
 
 	// Enquanto não chegou na origem
 	while (celula.i != origem.i || celula.j != origem.j)
@@ -315,37 +316,37 @@ void traceback() {
 		// Determina se célula anterior no caminho é vizinho norte, sul, oeste ou leste
 		// e insere esse vizinho no início do caminho
 		
-		vizinho.i = celula.i - 1 ; // Norte
-		vizinho.j = celula.j ;
+		vizinho.i = celula.i - 1; // Norte
+		vizinho.j = celula.j;
 
 		if ((vizinho.i >= 0) && (dist[vizinho.i][vizinho.j] == dist[celula.i][celula.j] - 1))
-			insere_caminho(vizinho) ;
+			insere_caminho(vizinho);
 		else
 		{
-			vizinho.i = celula.i + 1 ; // Sul
-			vizinho.j = celula.j ;
+			vizinho.i = celula.i + 1; // Sul
+			vizinho.j = celula.j;
 
 			if ((vizinho.i <nLinhas) && (dist[vizinho.i][vizinho.j] == dist[celula.i][celula.j] - 1))
-				insere_caminho(vizinho) ;
+				insere_caminho(vizinho);
 			else
 			{
-				vizinho.i = celula.i ; // Oeste
-				vizinho.j = celula.j - 1 ;
+				vizinho.i = celula.i; // Oeste
+				vizinho.j = celula.j - 1;
 
 				if ((vizinho.j >= 0) && (dist[vizinho.i][vizinho.j] == dist[celula.i][celula.j] - 1))
-					insere_caminho(vizinho) ;
+					insere_caminho(vizinho);
 				else
 				{
-					vizinho.i = celula.i ; // Leste
-					vizinho.j = celula.j + 1 ;
+					vizinho.i = celula.i; // Leste
+					vizinho.j = celula.j + 1;
 
 					if ((vizinho.j < nColunas) && (dist[vizinho.i][vizinho.j] == dist[celula.i][celula.j] - 1))
-						insere_caminho(vizinho) ;
+						insere_caminho(vizinho);
 				}
 			}
 		}
-		celula.i = vizinho.i ;
-		celula.j = vizinho.j ;
+		celula.i = vizinho.i;
+		celula.j = vizinho.j;
 	}
 }
 
@@ -355,40 +356,40 @@ void traceback() {
 int main(int argc, char** argv)
 {
 	char nome_arq_entrada[100],
-		  nome_arq_saida[100] ;
-	bool achou ;
+		  nome_arq_saida[100];
+	bool achou;
 
 	if(argc != 3)
 	{
-		printf("O programa foi executado com argumentos incorretos.\n") ;
-		printf("Uso: ./rotParalelo <nome arquivo entrada> <nome arquivo saída>\n") ;
-		exit(1) ;
+		printf("O programa foi executado com argumentos incorretos.\n");
+		printf("Uso: ./rotParalelo <nome arquivo entrada> <nome arquivo saída>\n");
+		exit(1);
 	}
 
 	// Obtém nome dos arquivos de entrada e saída
-	strcpy(nome_arq_entrada, argv[1]) ;
-	strcpy(nome_arq_saida, argv[2]) ;
+	strcpy(nome_arq_entrada, argv[1]);
+	strcpy(nome_arq_saida, argv[2]);
 
 	// Lê arquivo de entrada e inicializa estruturas de dados
-	inicializacao (nome_arq_entrada) ;
+	inicializacao (nome_arq_entrada);
 
 	// Fase de expansão: calcula distância da origem até demais células do grid
 	achou = expand();
 
 	// Se não encontrou caminho de origem até destino
 	if (! achou)
-		dist_min = -1 ;
+		dist_min = -1;
 	else
 	{
 		// Obtém distância do caminho mínimo da origem até destino
-		dist_min = dist[destino.i][destino.j] ;
+		dist_min = dist[destino.i][destino.j];
 
 		// Fase de traceback: obtém caminho mínimo
 		traceback();
 	}
 
 	// Finaliza e escreve arquivo de saida
-	finalizacao(nome_arq_saida) ;
+	finalizacao(nome_arq_saida);
 	
-	return 0 ;
+	return 0;
 }
