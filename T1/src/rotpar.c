@@ -142,7 +142,7 @@ void finalizacao(char* nome_arq_saida)
 // ----------------------------------------------------------------------------
 // Insere célula no fim da fila de células a serem tratadas (fila FIFO)
 
-void insere_fila(t_celula celula)
+void insere_fila(t_celula celula, int num)
 {
 	t_no *no = malloc(sizeof(t_no));
 	// Checar se conseguiu alocar
@@ -151,12 +151,22 @@ void insere_fila(t_celula celula)
 	no->j = celula.j;
 	no->prox = NULL;
 
-	if (ini_fila == NULL)
-		ini_fila = no;
-	else
-		fim_fila->prox = no;
-
-	fim_fila = no;
+	if(num == 0)
+	{
+		if (ini_fila == NULL)
+			ini_fila = no;
+		else
+			fim_fila->prox = no;
+		fim_fila = no;
+	}
+	else if(num == 1)
+	{
+		if(ini_aux == NULL)
+			ini_aux = no;
+		else
+			fim_aux->prox = no;
+		fim_aux = no;
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -180,6 +190,17 @@ t_celula remove_fila()
 	free(no);
 
 	return celula;
+}
+void remove()
+{
+	t_no *no;
+
+	no = ini_fila;
+
+	if (ini_fila == NULL)
+		fim_fila = NULL;
+
+	free(no);
 }
 
 // ----------------------------------------------------------------------------
