@@ -67,20 +67,20 @@ void inicializacao(char* nome_arq_entrada)
 		exit(1);
 	}
 
-	fscanf(arq_entrada, "%d %d", &n_linhas, &n_colunas);
+	fscanf(arq_entrada, "%d %d", &nLinhas, &nColunas);
 	fscanf(arq_entrada, "%d %d", &origem.i, &origem.j);
 	fscanf(arq_entrada, "%d %d", &destino.i, &destino.j);
 	fscanf(arq_entrada, "%d", &n_obstaculos);
 
 	// Aloca grid
-	dist = malloc(n_linhas * sizeof (int*));
-	for (int i = 0; i < n_linhas; i++)
-		dist[i] = malloc(n_colunas * sizeof (int));
+	dist = malloc(nLinhas * sizeof (int*));
+	for (int i = 0; i < nLinhas; i++)
+		dist[i] = malloc(nColunas * sizeof (int));
 	// Checar se conseguiu alocar
 
 	// Inicializa grid
-	for (int i = 0; i < n_linhas; i++)
-		for (int j = 0; j < n_colunas; j++)
+	for (int i = 0; i < nLinhas; i++)
+		for (int j = 0; j < nColunas; j++)
 			dist[i][j] = INT_MAX;
 
 	dist[origem.i][origem.j] = 0; // Distância da origem até ela mesma é 0
@@ -117,7 +117,7 @@ void finalizacao(char* nome_arq_saida)
 	arq_saida = fopen(nome_arq_saida, "wt");
 
 	// Imprime distância mínima no arquivo de saída
-	fprintf(arq_saida, "%d\n", distancia_min);
+	fprintf(arq_saida, "%d\n", dist_min);
 
 	// Imprime caminho mínimo no arquivo de saída
 	while (ini_caminho != NULL)
@@ -134,7 +134,7 @@ void finalizacao(char* nome_arq_saida)
 	fclose(arq_saida);
 
 	// Libera grid
-	for (int i = 0; i < n_linhas; i++)
+	for (int i = 0; i < nLinhas; i++)
 		free(dist[i]);
 	free(dist);
 }
@@ -142,7 +142,7 @@ void finalizacao(char* nome_arq_saida)
 // ----------------------------------------------------------------------------
 // Insere célula no fim da fila de células a serem tratadas (fila FIFO)
 
-void insere_fila(t_celula celula)
+void insere_fila(t_celula celula, int num)
 {
 	t_no *no = malloc(sizeof(t_no));
 	// Checar se conseguiu alocar
@@ -151,12 +151,22 @@ void insere_fila(t_celula celula)
 	no->j = celula.j;
 	no->prox = NULL;
 
-	if (ini_fila == NULL)
-		ini_fila = no;
-	else
-		fim_fila->prox = no;
-
-	fim_fila = no;
+	if(num == 0)
+	{
+		if (ini_fila == NULL)
+			ini_fila = no;
+		else
+			fim_fila->prox = no;
+		fim_fila = no;
+	}
+	else if(num == 1)
+	{
+		if(ini_aux == NULL)
+			ini_aux = no;
+		else
+			fim_aux->prox = no;
+		fim_aux = no;
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -181,6 +191,17 @@ t_celula remove_fila()
 
 	return celula;
 }
+void remove_aux()
+{
+	t_no *no;
+
+	no = ini_fila;
+
+	if (ini_fila == NULL)
+		fim_fila = NULL;
+
+	free(no);
+}
 
 // ----------------------------------------------------------------------------
 // Insere célula no inicio do caminho
@@ -204,7 +225,7 @@ bool expand() {
 	bool achou = false;
 	t_celula atual, vizinho;
 
-	insere_fila(origem);
+	insere_fila(origem, 0);
 
 	while (ini_fila != NULL && !achou) {
 
@@ -304,7 +325,7 @@ void traceback() {
 			vizinho.i = celula.i + 1 ; // Sul
 			vizinho.j = celula.j ;
 
-			if ((vizinho.i < n_linhas) && (dist[vizinho.i][vizinho.j] == dist[celula.i][celula.j] - 1))
+			if ((vizinho.i <nLinhas) && (dist[vizinho.i][vizinho.j] == dist[celula.i][celula.j] - 1))
 				insere_caminho(vizinho) ;
 			else
 			{
@@ -318,7 +339,7 @@ void traceback() {
 					vizinho.i = celula.i ; // Leste
 					vizinho.j = celula.j + 1 ;
 
-					if ((vizinho.j < n_colunas) && (dist[vizinho.i][vizinho.j] == dist[celula.i][celula.j] - 1))
+					if ((vizinho.j < nColunas) && (dist[vizinho.i][vizinho.j] == dist[celula.i][celula.j] - 1))
 						insere_caminho(vizinho) ;
 				}
 			}
@@ -349,25 +370,25 @@ int main(int argc, char** argv)
 	strcpy(nome_arq_saida, argv[2]) ;
 
 	// Lê arquivo de entrada e inicializa estruturas de dados
-	inicializa(nome_arq_entrada) ;
+	inicializacao (nome_arq_entrada) ;
 
 	// Fase de expansão: calcula distância da origem até demais células do grid
-	achou = expansao();
+	achou = expand();
 
 	// Se não encontrou caminho de origem até destino
 	if (! achou)
-		distancia_min = -1 ;
+		dist_min = -1 ;
 	else
 	{
 		// Obtém distância do caminho mínimo da origem até destino
-		distancia_min = dist[destino.i][destino.j] ;
+		dist_min = dist[destino.i][destino.j] ;
 
 		// Fase de traceback: obtém caminho mínimo
 		traceback();
 	}
 
 	// Finaliza e escreve arquivo de saida
-	finaliza(nome_arq_saida) ;
+	finalizacao(nome_arq_saida) ;
 	
 	return 0 ;
 }
