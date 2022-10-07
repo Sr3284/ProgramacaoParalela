@@ -43,6 +43,8 @@ t_no *ini_fila,		// Ponteiros para início e fim da fila de células a serem tra
 	 *fim_fila,
 	 *ini_caminho;	// Ponteiro para início do caminho encontrado
 
+int currLevel;
+
 // ----------------------------------------------------------------------------
 // Funções
 

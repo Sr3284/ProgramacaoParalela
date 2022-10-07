@@ -3,9 +3,10 @@
 
 Autores: Davi Queiroz Rodrigues e Rodrigo Seiti Koga
 
-Para compilar: gcc rotseq.c -o rotseq -Wall
-				make rotseq
-Para executar: ./rotseq <nome arquivo entrada> <nome arquivo saída>
+Para compilar: gcc rotseq.c -o rotSequencial -Wall -pedantic
+			   make rotSequencial
+
+Para executar: ./rotSequencial <nome arquivo entrada> <nome arquivo saída>
 ---------------------------------------------------------------------------- */
 
 #include <stdio.h>
@@ -323,7 +324,7 @@ int main(int argc, char** argv)
 	if(argc != 3)
 	{
 		printf("O programa foi executado com argumentos incorretos.\n") ;
-		printf("Uso: ./rot_seq <nome arquivo entrada> <nome arquivo saída>\n") ;
+		printf("Uso: ./rotSequencial <nome arquivo entrada> <nome arquivo saída>\n") ;
 		exit(1) ;
 	}
 
