@@ -378,6 +378,7 @@ int main(int argc, char** argv)
 {
 	char nome_arq_entrada[100],
 		  nome_arq_saida[100];
+	double tini, tfim, texec;
 	bool achou;
 
 	if(argc != 3)
@@ -395,6 +396,7 @@ int main(int argc, char** argv)
 	inicializacao (nome_arq_entrada);
 
 	// Fase de expansão: calcula distância da origem até demais células do grid
+	tini = omp_get_wtime();
 	achou = expand();
 
 	// Se não encontrou caminho de origem até destino
@@ -408,6 +410,11 @@ int main(int argc, char** argv)
 		// Fase de traceback: obtém caminho mínimo
 		traceback();
 	}
+	tfim = omp_get_wtime();
+
+	texec = tfim - tini;
+
+	printf("Tempo de execução: %f\n", texec);
 
 	// Finaliza e escreve arquivo de saida
 	finalizacao(nome_arq_saida);
