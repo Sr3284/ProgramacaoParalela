@@ -253,49 +253,58 @@ bool expand() {
 				achou = true;
 			else {
 
-				#pragma omp sections 
+				#pragma omp sections private(vizinho)
 				{
 					#pragma omp section
+						
+						vizinho.i = atual.i - 1;
+						vizinho.j = atual.j;
+
 						if (((atual.i - 1) >= 0) && (dist[atual.i - 1][atual.j] == INT_MAX)) {
+							dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
+
 							#pragma omp critical 
 							{
-								vizinho.i = atual.i - 1;
-								vizinho.j = atual.j;
-
-								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
 								insere_fila(vizinho, 1);
 							}
 						}
 					#pragma omp section
+
+						vizinho.i = atual.i + 1;
+						vizinho.j = atual.j;
+
 						if (((atual.i + 1) < nLinhas) && (dist[atual.i + 1][atual.j] == INT_MAX)) {
+							dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
+
+
 							#pragma omp critical 
 							{
-								vizinho.i = atual.i + 1;
-								vizinho.j = atual.j;
-
-								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
 								insere_fila(vizinho, 1);
 							}
 						}
 					#pragma omp section
+
+						vizinho.i = atual.i;
+						vizinho.j = atual.j - 1;
+
 						if (((atual.j - 1) >= 0) && (dist[atual.i][atual.j - 1] == INT_MAX)) {
+							dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
+
 							#pragma omp critical 
 							{
-								vizinho.i = atual.i;
-								vizinho.j = atual.j - 1;
-
-								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
 								insere_fila(vizinho, 1);
 							}
 						}
 					#pragma omp section
+
+						vizinho.i = atual.i;
+						vizinho.j = atual.j + 1;
+
 						if (((atual.j + 1) < nColunas) && (dist[atual.i][atual.j + 1] == INT_MAX)) {
+							dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
+
 							#pragma omp critical 
 							{
-								vizinho.i = atual.i;
-								vizinho.j = atual.j + 1;
-
-								dist[vizinho.i][vizinho.j] = dist[atual.i][atual.j] + 1;
 								insere_fila(vizinho, 1);
 							}
 						}
