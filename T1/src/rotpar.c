@@ -3,8 +3,7 @@
 
 Autores: Davi Queiroz Rodrigues e Rodrigo Seiti Koga Kikuta
 
-Para compilar: gcc rotpar.c -fopenmp -o rotParalelo -Wall -pedantic
-			   make roteamento
+Para compilar: make ou gcc rotpar.c -fopenmp -o rotParalelo -Wall -pedantic
 
 Para executar: ./rotParalelo <nome arquivo entrada> <nome arquivo saída>
 ---------------------------------------------------------------------------- */
