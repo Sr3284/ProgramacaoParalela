@@ -382,15 +382,11 @@ int main(int argc, char** argv)
 	strcpy(nome_arq_entrada, argv[1]);
 	strcpy(nome_arq_saida, argv[2]);
 
-	printf("1");
 	// Lê arquivo de entrada e inicializa estruturas de dados
 	inicializacao (nome_arq_entrada);
-	printf("2");
 
-	printf("3");
 	// Fase de expansão: calcula distância da origem até demais células do grid
 	achou = expand();
-	printf("4");
 
 	// Se não encontrou caminho de origem até destino
 	if (! achou)
